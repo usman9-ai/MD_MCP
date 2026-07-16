@@ -1,0 +1,1644 @@
+{
+  "datasourceDescription": "",
+  "datasourceModel": {
+    "logicalTables": [
+      {
+        "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+        "caption": "Dim Time"
+      },
+      {
+        "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+        "caption": "Focused Brands"
+      },
+      {
+        "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+        "caption": "VFF Hierarchy"
+      },
+      {
+        "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+        "caption": "Secondary Sales Summary"
+      }
+    ],
+    "logicalTableRelationships": [
+      {
+        "fromLogicalTable": {
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED"
+        },
+        "toLogicalTable": {
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0"
+        },
+        "expression": {
+          "relationships": [
+            {
+              "operator": "=",
+              "fromField": "[DATEOFSALE]",
+              "toField": "[Gregorian Date]"
+            }
+          ]
+        }
+      },
+      {
+        "fromLogicalTable": {
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED"
+        },
+        "toLogicalTable": {
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3"
+        },
+        "expression": {
+          "op": "AND",
+          "relationships": [
+            {
+              "operator": "=",
+              "fromField": "[SK_GRP_KEY]",
+              "toField": "[SK_GRP_KEY (FOCUSED_BRAND)]"
+            },
+            {
+              "operator": "=",
+              "fromField": "[CMPID]",
+              "toField": "[CMP_ID]"
+            }
+          ]
+        }
+      },
+      {
+        "fromLogicalTable": {
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED"
+        },
+        "toLogicalTable": {
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342"
+        },
+        "expression": {
+          "relationships": [
+            {
+              "operator": "=",
+              "fromField": "[SK_TSO_KEY]",
+              "toField": "[SK_TSO_KEY (GV_FF_LIST_FNL)]"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "fieldGroups": [
+    {
+      "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+      "fields": [
+        {
+          "name": "Month (M)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month (MM)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Year",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Quarter Year",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Week Day (DD)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Sort",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Eomonth",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Week Day (DDD)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Year",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Day",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Quarter",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Is Past",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Column24",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Year Int",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Gregorian Date",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Week Number",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Year Week",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Week Day Int",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Fiscal Year",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Date Sort",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Year (WN)",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Notes",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Working Day",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Int",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "DimTime (MDHANAPROD.DimTime)_736706DB286D476AB943D26628C4ADE0",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        }
+      ]
+    },
+    {
+      "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+      "fields": [
+        {
+          "name": "Product",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Target Unit",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Tsoid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cmpid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Brickid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Weeks",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "CMP",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Bonus",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Expired",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Station",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Distributor",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Custid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Distribution",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "DOCNO",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Discount",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Sk Teams Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cmp Code1",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sale Value",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "With And Without Bonus",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "SALE_UNIT_PRIMARY",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "BU",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sale Unit",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "SALE_VALUE_PRIMARY",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Sk Saletype Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dateofsale",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Saletype",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "CHAIN",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Brand Rename",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "SK_CUSTOMER_KEY",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "TP",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Prdid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "PRD",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Type Of Sale",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sk Grp Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Returns",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Sk Prdt Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Saletypeid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Alt Team",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Categoryid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sk Tso Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "City",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Flag",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Brand",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "TSO",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "INCREMENTAL_REFRESH_DATE",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "State",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Region",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sk Bunits Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Category",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "GRP",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Alt Company Code",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "DSTBID",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cpvactual",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Sales Category",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "PRODUCT_TYPE",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "CUSTOMER_NAME",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sk Distributor Key",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Status Prd",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Teamname",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Target Value",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_SEC_SALES_FNL (MDHANAPROD.GV_SEC_SALES_FNL)_641DBB53869149A9A7D4B524F091A3ED",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        }
+      ]
+    },
+    {
+      "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+      "fields": [
+        {
+          "name": "Cmp (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmlng",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "State (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Spoeno",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmeno",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rmeno",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmeno",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmaddress",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsoactive",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "NSM",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "RSM",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsolat",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Smid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tercode",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "RM",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Empid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmemail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Teamid",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Teamname (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmeno",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsodoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsoaddress",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmlng",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmaddress",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "SM",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Spomobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmmobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmbase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Spobase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Spodoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsohremail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmdoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmhremail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmhremail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmlat",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmseq",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Rmid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "SPO",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsobase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmseq",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Tsoemail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmmobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Smbase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Emp Name",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "DSM",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rmemail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmmobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsolng",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Teamseq",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Dsmactive",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rmdoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmdoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rmbase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Bu (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmemail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmemail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Edor",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nsmid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cnic",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmseq",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rmmobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmlat",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Buid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmhremail",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Buseq",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Cmpid (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmbase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sk Tso Key (Gv Ff List Fnl)",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmdoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsoeno",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Spoid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsoid (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tsomobile",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Tso (Gv Ff List Fnl)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmaddress",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Edoj",
+          "dataType": "DATETIME",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Dsmbase",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Rsmid",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_FF_LIST_FNL (MDHANAPROD.GV_FF_LIST_FNL)_45628A7522224CFF8D3EDB29B657A342",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        }
+      ]
+    },
+    {
+      "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+      "fields": [
+        {
+          "name": "Prod Group Id",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Sk Grp Key (Focused Brand)",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Year1",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "QUANTITATIVE",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cmp Name",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Prod Group",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Focus Flag",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cmp Id",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "FOCUSED_BRAND (MDHANAPROD.FOCUSED_BRAND)_9D1B037B960A4065B7EED3AE062733B3",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        }
+      ]
+    }
+  ],
+  "parameters": []
+}
