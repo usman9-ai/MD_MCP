@@ -7,7 +7,7 @@ load_dotenv()
 
 # --- Anthropic / model ---------------------------------------------------
 API_KEY = os.getenv("claude_api_key")
-HAIKU_MODEL_NAME = os.getenv("HAIKU_MODEL_NAME", "claude-sonnet-4-5")
+HAIKU_MODEL_NAME = os.getenv("HAIKU_MODEL_NAME", "claude-haiku-4-5")
 SONNET_MODEL_NAME = os.getenv("SONNET_MODEL_NAME", "claude-sonnet-4-6")
 OPUS_MODEL_NAME = os.getenv("OPUS_MODEL_NAME", "claude-opus-4-5")
 MAX_TOKENS = int(os.getenv("MAX_TOKENS", "4096"))

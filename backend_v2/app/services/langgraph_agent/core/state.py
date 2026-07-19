@@ -11,9 +11,14 @@ class State(TypedDict):
     context_window_size: int
     conversation_history: Annotated[list[BaseMessage], add_messages]
     input: str
+    question_uuid: str
     enhanced_input: str
     langchain_tools: dict
+    tools_by_name: dict
     tool_calls: list[dict]
+    tool_call_log: list[dict]
+    tool_calls_summary: str
+    validation_log: dict
     current_tool_calls: dict
     all_datasources: list[dict]
     tool_execution_history: Annotated[list[BaseMessage], add_messages]

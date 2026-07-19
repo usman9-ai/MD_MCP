@@ -10,11 +10,9 @@ class LangGraphAgent:
 
     async def initialize(self):
 
-        self.tools = await initialize_tools()
-
+        self.tools, self.tools_by_name = await initialize_tools()
         self.graph = build_graph()
-        print(type(self.graph))
-        print(self.graph)   
+ 
 
     async def invoke(self, state):
         return await self.graph.ainvoke(state)

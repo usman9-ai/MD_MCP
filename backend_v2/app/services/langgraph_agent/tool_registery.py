@@ -16,5 +16,5 @@ async def initialize_tools():
 
     all_tools = await mcp_client.get_tools()
     tools = [t for t in all_tools if t.name in ['query-datasource']]
-    print("Initailized tools: ", tools)
-    return tools
+    tools_by_name = {t.name: t for t in tools}
+    return tools, tools_by_name

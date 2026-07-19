@@ -1,14 +1,9 @@
-from typing import Optional
-from xml.parsers.expat import model
-
 from prompt_toolkit import prompt
-
 from . import config
 from .response_schema import RouterOutput
 from .state import State
 from .llm import *
 import json
-import re
 import uuid
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from fastmcp import Client
@@ -17,7 +12,9 @@ from langgraph.types import Overwrite
 import ast
 from pathlib import Path
 from functools import lru_cache
-
+from datetime import datetime, timezone
+import time
+from datetime import datetime, timedelta
 
 def manage_conversation_history(state: State):
     conversation_history = state.get("conversation_history", [])
@@ -37,20 +34,57 @@ def manage_conversation_history(state: State):
     return {"conversation_history": conversation_history}
 
 
+def _utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _json_safe(value):
+    return json.loads(json.dumps(value, default=str, ensure_ascii=False))
+
+
+def _tool_calls_summary(tool_calls: list[dict]) -> str:
+    summary_lines = []
+    for tool_call in tool_calls:
+        result = tool_call.get("result")
+        error = tool_call.get("error")
+        if error:
+            detail = f"{len(str(error))} chars error"
+        else:
+            detail = f"{len(str(result))} chars result"
+        summary_lines.append(
+            f"{tool_call.get('sequence')}. {tool_call.get('tool_name')} | "
+            f"{tool_call.get('status')} | {detail}"
+        )
+    return "\n".join(summary_lines)
+
+
 @lru_cache(maxsize=1)
 def get_followup_prompt() -> str:
-    return Path(r"D:\Martin Dow\Tableau MCP\Langgraph Agent\system_prompts\followup_router_system_prompt.md").read_text(encoding="utf-8")   
+    current_file = Path(__file__).resolve()
+    parent_dir = current_file.parent.parent
+    return Path(rf"{parent_dir}\system_prompts\followup_router_system_prompt.md").read_text(encoding="utf-8")   
 
 @lru_cache(maxsize=1)
 def get_business_info() -> str:
-    return Path(r"D:\Martin Dow\Tableau MCP\Langgraph Agent\system_prompts\business_info_v2.md").read_text(encoding="utf-8")   
+    current_file = Path(__file__).resolve()
+    parent_dir = current_file.parent.parent
+    return Path(rf"{parent_dir}\system_prompts\secondary_sales_kpis.md").read_text(encoding="utf-8")   
 
 
 @lru_cache(maxsize=1)
 def get_datasource_metadata() -> str:
-    return Path(r"D:\Martin Dow\Tableau MCP\agent\metadata.txt").read_text(encoding="utf-8")   
+    current_file = Path(__file__).resolve()
+    parent_dir = current_file.parent.parent
+    return Path(rf"{parent_dir}\system_prompts\secondary_sales_datasource_metadata.md").read_text(encoding="utf-8")   
 
-from pydantic import ValidationError
+
+@lru_cache(maxsize=1)
+def get_string_search_instructions() -> str:
+    current_file = Path(__file__).resolve()
+    parent_dir = current_file.parent.parent
+    return Path(rf"{parent_dir}\system_prompts\string search instructions.txt").read_text(encoding="utf-8")   
+
+
 
 
 def _parse_router_output(raw_msg, user_msg: str) -> RouterOutput:
@@ -120,7 +154,6 @@ async def follow_up_and_router(state: State):
         [router_tool], tool_choice={"type": "tool", "name": "RouterOutput"}
     )
     raw_msg = await sonnet_llm.ainvoke(messages)
-    print(raw_msg)
     # raw_msg = await structured_model.ainvoke(messages)
 
     # if not raw_msg.tool_calls:
@@ -136,10 +169,6 @@ async def follow_up_and_router(state: State):
     # if not result_dict:
     #     raise ValueError("Router returned no populated field.")
 
-    # usage = raw_msg.usage_metadata
-    # print("input_tokens:", usage["input_tokens"])
-    # print("cache_read:", usage.get("input_token_details", {}).get("cache_read"))
-    # print("cache_creation:", usage.get("input_token_details", {}).get("cache_creation"))
 
     # return {"route_output": result_dict}
     try:
@@ -154,17 +183,23 @@ async def follow_up_and_router(state: State):
 
         parsed = json.loads(content)
     usage = raw_msg.usage_metadata
+    print("============== FOLLOW UP NODE =================")
     print("User conversation: ", state["conversation_history"])
     print("input_tokens:", usage["input_tokens"])
     print("cache_read:", usage.get("input_token_details", {}).get("cache_read"))
     print("cache_creation:", usage.get("input_token_details", {}).get("cache_creation"))
 
+    validation_log = copy.deepcopy(state.get("validation_log", {}))
+    validation_log["follow_up_node_response"] = _json_safe(parsed)
 
     return {
         "follow_up_and_router_response": parsed, 
         "coversation_history": [user_msg],
         "tool_execution_history": Overwrite([]),
         "tool_calls": [],
+        "tool_call_log": [],
+        "tool_calls_summary": "",
+        "validation_log": validation_log,
         "replanning_attempts": 0
     }
 
@@ -184,73 +219,172 @@ def greeting_handler(state: State):
 def enhanced_prompt_handler(state: State):
         response = state.get("follow_up_and_router_response", {})
         reply = response.get("enhanced_prompt", "")
-        return {"enhanced_input": reply }
+        validation_log = copy.deepcopy(state.get("validation_log", {}))
+        validation_log["enhanced_prompt"] = reply
+        return {"enhanced_input": reply, "validation_log": validation_log}
 
 
-def autonomous_executor(state: dict):
+async def autonomous_executor(state: dict):
+    print(" i am in agent")
     langchain_tools = state.get("langchain_tools", [])
+    tools_by_name = state.get("tools_by_name", {})
     llm_with_tools = sonnet_llm.bind_tools(langchain_tools)
-    business_info = get_business_info()
     datasource_uuid = "b6bbffe2-ebdb-4deb-808c-825fe0896e85"
+
+    business_info = get_business_info()
     datasource_metadata = get_datasource_metadata()
+    string_search_instructions = get_string_search_instructions()
+
+    today = datetime.now()
+    latest_date = today - timedelta(days=1)
+
+    print("Today:", today.strftime("%Y-%m-%d"))
+    print("Target Date:", latest_date.strftime("%Y-%m-%d"))
+    latest_date_msg = f"The data is available upto n-1 day which is {latest_date}, use this as refrence when trying to apply any date filter"
 
     prompt = f"""{business_info}\n DataSource UUID: {datasource_uuid}\n Metadata of the datasource:\n{datasource_metadata}\n\n"""
     
     
-    conversation_history = state.get("conversation_history", [])
     tool_execution_history = state.get("tool_execution_history", [])
-    print("tool_execution_history:", tool_execution_history)
-    import time
     user_msg = state.get('enhanced_input', "") 
-    print("user enahnced msg: ", user_msg)  
 
     messages = [
         SystemMessage(content=[{"type": "text", "text": prompt, "cache_control": {"type": "ephemeral"}}]),
-        HumanMessage(content=f"Current user message: {user_msg}\n\nRecent tool executions:\n{tool_execution_history}\n\n")
+        SystemMessage(content=[{"type": "text", "text": latest_date_msg}]),
     ]
+    messages.append(HumanMessage(content=user_msg))
+
+    history = copy.deepcopy(tool_execution_history)
+    tool_call_log = copy.deepcopy(state.get("tool_call_log", []))
+    validation_log = copy.deepcopy(state.get("validation_log", {}))
+    print("Tool History: ", history)
+
+    messages.extend(history)
+
+
+    if history:
+        last = history[-1]
+        if isinstance(last.content, str):
+            last.content = [
+                {"type": "text", "text": last.content, "cache_control": {"type": "ephemeral"}}
+            ]
+        elif isinstance(last.content, list) and last.content:
+            last.content[-1]["cache_control"] = {"type": "ephemeral"}
+
 
     while True:
+        current_tool_calls = []
+        # for i, m in enumerate(messages):
+        #     print("=" * 40)
+        #     print(i, type(m))
 
-        msg = llm_with_tools.invoke(messages)
-        usage = msg.usage_metadata
+        #     if isinstance(m, AIMessage):
+        #         print("tool_calls:", m.tool_calls)
+        #         print("content:", m.content)
+
+        #     elif isinstance(m, ToolMessage):
+        #         print("tool_call_id:", m.tool_call_id)
+        #         print("content:", m.content)
+
+        #     else:
+        #         print(m.content)
+        ai_message = llm_with_tools.invoke(messages)
+
+        usage = ai_message.usage_metadata
+        print("============== AGENT NODE ================")
         print("input_tokens:", usage["input_tokens"])
         print("cache_read:", usage.get("input_token_details", {}).get("cache_read"))
         print("cache_creation:", usage.get("input_token_details", {}).get("cache_creation"))
 
-        
-        ai_message = msg.content
-        # Extract just the text portion (msg.content may be a list of blocks or a plain string)
-        if isinstance(msg.content, list):
-            text_parts = [block.get("text", "") for block in msg.content if isinstance(block, dict) and block.get("type") == "text"]
-            ai_message = "".join(text_parts)
-        else:
-            ai_message = msg.content or ""
+        current_tool_calls.append(ai_message)
+
+        tool_calls = getattr(ai_message, "tool_calls", [])
+        print(f"Agent sent {len(tool_calls)} tool_calls")
+
+        for call in tool_calls:
+            print("inside loop")
+            name = call.get("name")
+            args = call.get("args", {})
+            tool_started_at = _utc_now_iso()
+            tool_started_monotonic = time.perf_counter()
+            tool_log_entry = {
+                "sequence": len(tool_call_log) + 1,
+                "tool_call_id": call.get("id", ""),
+                "tool_name": name,
+                "arguments": _json_safe(args),
+                "status": "started",
+                "result": None,
+                "error": None,
+                "started_at": tool_started_at,
+                "finished_at": "",
+                "duration_ms": None,
+            }
+
+            try: 
+                print("trying")
+                tool = tools_by_name.get(name)
+                if tool is None:
+                    msg = f"Tool '{name}' is not available (VDS tools only)."
+                    # print("\n=== Error ===\n" + msg)
+                    messages.append(ToolMessage(content=msg, tool_call_id=call["id"], status="error"))
+                    tool_log_entry["status"] = "error"
+                    tool_log_entry["error"] = msg
+                    continue
+                    
+
+                print("gonna start tool execution now")
+                result = await tool.ainvoke(args)
+                print("DONE")
+                print(result)
+                tool_log_entry["status"] = "success"
+                tool_log_entry["result"] = _json_safe(result)
+                if name == 'query-datasource':
+                    
+                    tool_msg = ToolMessage(
+                        content=result,
+                        tool_name=name,
+                        tool_call_id=call["id"],
+                    )
+                    current_tool_calls.append(tool_msg)
 
 
-        tool_calls = getattr(msg, "tool_calls", [])
-        # print("Tool calls extracted from LLM response:", tool_calls)
+            except Exception as e:  # VDS/MCP raised -> brief it and feed back
 
-        for tool_call in tool_calls:
-            tool_name = tool_call.get("name")
-            tool_args = tool_call.get("args", {})
 
-            ai_message += f"\n\n[Executing tool: '{tool_name}' with arguments: {tool_args}]"
+                tool_msg = ToolMessage(
+                    content=str(e),
+                    tool_name=name,
+                    tool_call_id=call["id"],
+                )
+                tool_log_entry["status"] = "error"
+                tool_log_entry["error"] = str(e)
+                current_tool_calls.append(tool_msg)
+            finally:
+                tool_log_entry["finished_at"] = _utc_now_iso()
+                tool_log_entry["duration_ms"] = round(
+                    (time.perf_counter() - tool_started_monotonic) * 1000
+                )
+                tool_call_log.append(tool_log_entry)
 
-        print("AI Message:", ai_message)
-        print("Tool Calls:", tool_calls)
+        tool_calls_summary = _tool_calls_summary(tool_call_log)
+        validation_log["tool_calls"] = tool_call_log
+        validation_log["tool_calls_summary"] = tool_calls_summary
+
         return  {
         "tool_calls": tool_calls,
-        "tool_execution_history": [AIMessage(content=ai_message)],
-        "output": msg.content,
+        "tool_execution_history": current_tool_calls,
+        "tool_call_log": tool_call_log,
+        "tool_calls_summary": tool_calls_summary,
+        "validation_log": validation_log,
+        "output": ai_message.content,
         "follow_up": False,
         "intent": 'None'
         }
         
-
 async def execute_tool(state: dict):
-    print( "I am in execute tool node")
+    print("I am in executoer")
+    return state
     tool_calls = state.get("tool_calls", [])
-    # print("Tool calls to execute:", tool_calls)
     if not tool_calls:
         return {
             "tool_execution_history": [
@@ -283,7 +417,6 @@ async def execute_tool(state: dict):
                 f"Previous response: {previous_response}\n"
                 "Adjust plan to avoid infinite loop."
             )
-            # # print(error_msg, "\n tool args:", tool_args)
             tool_msg = ToolMessage(
                 content=error_msg,
                 tool_name=tool_name,
@@ -311,9 +444,6 @@ async def execute_tool(state: dict):
 
             # Reset prompts counter safely
             most_recent_tool_calls[tool_name]["prompts_after_last_call"] = 0
-            # print(f"Using cached result for tool '{tool_name}' with identical arguments. Previous status: {previous_status}")
-            # print("="*50)
-            # # print(tool_msg, "\n tool args:", tool_args)
 
             return {
                 "most_recent_tool_calls": most_recent_tool_calls,
@@ -324,6 +454,45 @@ async def execute_tool(state: dict):
     # 3️⃣ Execute Tool
     # ==========================================================
     try:
+        
+        if not ai.tool_calls:
+            # No more tool calls -> model's final natural-language answer.
+            if ai.content:
+                print("\nAnswer:", ai.content.strip() if isinstance(ai.content, str) else ai.content)
+            return
+
+        for call in ai.tool_calls:
+            name = call["name"]
+            args = call["args"]
+
+            # ---- Response 1: the VizQL query that is being executed ----
+            if name == 'query-datasource':
+                # print("\n=== VizQL Query Executed ===")
+                # print(extract_vizql_query(args))
+                pass
+
+            tool = tools_by_name.get(name)
+            if tool is None:
+                msg = f"Tool '{name}' is not available (VDS tools only)."
+                # print("\n=== Error ===\n" + msg)
+                messages.append(ToolMessage(content=msg, tool_call_id=call["id"], status="error"))
+                continue
+
+            # ---- Response 2: output on success, brief error on failure ----
+            try:
+                result = await tool.ainvoke(args)
+                if name == 'query-datasource':
+                    # print("\n=== Output ===")
+                    # print(summarize_result(result))
+                    pass
+                messages.append(ToolMessage(content=str(result), tool_call_id=call["id"]))
+            except Exception as exc:  # VDS/MCP raised -> brief it and feed back
+                    # print("\n=== Error ===")
+                    # print(short)
+                    pass
+
+
+
         async with Client("http://localhost:3927/tableau-mcp") as client:
             tool_result = await client.call_tool(tool_name, tool_args)
 
@@ -334,7 +503,6 @@ async def execute_tool(state: dict):
         )
 
 
-        # # print(tool_msg, "\n tool args:", tool_args)
         # Update tracking dictionaries safely
         current_tool_calls[tool_name] = {
             "arguments": tool_args,
@@ -360,7 +528,6 @@ async def execute_tool(state: dict):
             tool_name=tool_name,
             tool_call_id=tool_call_id,
         )
-        # # print(tool_msg, "\n tool args:", tool_args)
 
 
         return {
@@ -383,31 +550,27 @@ def final_response_after_tool_call_node(state: State):
     """
 
     enhanced_input = state.get("enhanced_input", "")
-    implementation_plan = state.get("implementation_plan", "")
-    context_anchors = state.get("context_anchors", [])
-    tool_execution_history = state.get("tool_execution_history", [])
     final_results = state.get("output", [])
-    print("final_results:", final_results)
 
-    msg = haiku_llm.invoke(f"""
-        You are a Tableau assistant.
+    # msg = sonnet_llm.invoke(f"""
+    #     You are a Tableau assistant.
 
-        Based on the conversation so far and the user's latest request, generate
-        a concise and accurate response.
+    #     Based on the conversation so far and the user's latest request, generate
+    #     a concise and accurate response.
 
-        Inputs you can use:
-        1. Enhanced user input:
-        {enhanced_input}
+    #     Inputs you can use:
+    #     1. Enhanced user input:
+    #     {enhanced_input}
 
-        2. Final results from tool calls:
-        {final_results}
+    #     2. Final results from tool calls:
+    #     {final_results}
 
-        Instructions:
-        - Respond only with the message text, no JSON or extra formatting.
-    """)
+    #     Instructions:
+    #     - Respond only with the message text, no JSON or extra formatting.
+    # """)
 
-    assistant_reply = msg.content.strip()
+    # assistant_reply = msg.content.strip()
 
 
-    return {"output": assistant_reply, "conversation_history":[AIMessage(content=assistant_reply)]}
+    return {"output": final_results, "conversation_history":[AIMessage(content=final_results)]}
 
