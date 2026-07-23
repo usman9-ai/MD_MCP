@@ -1,6 +1,6 @@
 "use client";
 import { useCallback } from "react";
-import { streamChatV2, visualizeV2 } from "@/lib/api";
+import { clearChat, streamChatV2, visualizeV2 } from "@/lib/api";
 import { useChatStore, useAuthStore } from "@/store";
 import type { ChatMessage, Citation, StatusStep } from "@/types";
 
@@ -126,6 +126,19 @@ export function useChat() {
     [messages, token, isStreaming, addMessage, updateMessage, setStreaming]
   );
 
+  const clearConversation = useCallback(async () => {
+    try {
+      if (token) {
+        await clearChat(token);
+      }
+    } catch (err) {
+      console.error("Clear chat error:", err);
+    } finally {
+      clearMessages();
+      setStreaming(false);
+    }
+  }, [token, clearMessages, setStreaming]);
+
   const generateChart = useCallback(
     async (messageId: string, question: string, answer: string) => {
       if (!token) return;
@@ -140,5 +153,5 @@ export function useChat() {
     [token, updateMessage]
   );
 
-  return { messages, isStreaming, send, clearMessages, generateChart };
+  return { messages, isStreaming, send, clearConversation, generateChart };
 }

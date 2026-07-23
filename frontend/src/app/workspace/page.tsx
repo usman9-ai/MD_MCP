@@ -16,7 +16,7 @@ export default function WorkspacePage() {
   const user = useAuthStore((s) => s.user);
   const hasHydrated = useAuthStore((s) => s.hasHydrated);
   const { markdownEnabled, compactMode, autoScroll } = useSettingsStore();
-  const { messages, isStreaming, send, clearMessages, generateChart } = useChat();
+  const { messages, isStreaming, send, clearConversation, generateChart } = useChat();
   const bottomRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   useThemeSync();
@@ -50,7 +50,7 @@ export default function WorkspacePage() {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--bg)" }}>
-      <Sidebar onNewChat={clearMessages} />
+      <Sidebar onNewChat={clearConversation} />
 
       {/* Main area */}
       <div className="flex flex-col flex-1 min-w-0">
@@ -71,7 +71,7 @@ export default function WorkspacePage() {
           <div className="flex items-center gap-2">
             {messages.length > 0 && (
               <button
-                onClick={clearMessages}
+                onClick={clearConversation}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs hover:text-red-400 hover:bg-red-500/10 transition-all"
                 style={{ color: "var(--text-muted)" }}
               >

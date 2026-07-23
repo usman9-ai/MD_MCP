@@ -51,6 +51,18 @@ export async function signIn(
   return res.json();
 }
 
+export async function clearChat(token: string): Promise<void> {
+  const res = await fetch(`${BASE}/chat/clear`, {
+    method: "POST",
+    headers: authHeaders(token),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail ?? "Failed to clear chat");
+  }
+}
+
 export async function* streamChatV2(
   token: string,
   message: string,

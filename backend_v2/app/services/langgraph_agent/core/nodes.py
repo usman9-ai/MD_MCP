@@ -22,7 +22,7 @@ def manage_conversation_history(state: State):
         messages_to_be_summarized = conversation_history[:11]
         conversation_history = conversation_history[11:]
 
-        msg = llm.invoke(f"""You are a helpful assistant that summarizes conversation history
+        msg = haiku_llm.invoke(f"""You are a helpful assistant that summarizes conversation history
                                 for a tableau assistant agent. Briefly summarize what user has been asking and 
                                 what the assistant has been responding in the conversation history. 
                                 The summary should be concise and capture the main points and key entities of the conversation.
@@ -33,6 +33,36 @@ def manage_conversation_history(state: State):
         conversation_history = [SystemMessage(content=f"Summary of previous conversation: {summary}")] + conversation_history 
     return {"conversation_history": conversation_history}
 
+
+
+def _normalize_text_output(content) -> str:
+    if content is None:
+        return ""
+
+    if isinstance(content, str):
+        return content.strip()
+
+    if isinstance(content, list):
+        text_parts = []
+
+        for block in content:
+            if isinstance(block, dict):
+                block_type = block.get("type")
+                block_text = block.get("text")
+
+                if block_type == "text" and isinstance(block_text, str):
+                    text_parts.append(block_text)
+
+                # Ignore tool/result blocks for the final user-facing response
+                # because they are not plain answer text.
+                continue
+
+            if isinstance(block, str):
+                text_parts.append(block)
+
+        return "".join(text_parts).strip()
+
+    return str(content).strip()
 
 def _utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -68,14 +98,20 @@ def get_followup_prompt() -> str:
 def get_business_info() -> str:
     current_file = Path(__file__).resolve()
     parent_dir = current_file.parent.parent
-    return Path(rf"{parent_dir}\system_prompts\secondary_sales_kpis.md").read_text(encoding="utf-8")   
+    return Path(rf"{parent_dir}\system_prompts\KPIs_v5.md").read_text(encoding="utf-8")   
 
 
 @lru_cache(maxsize=1)
 def get_datasource_metadata() -> str:
     current_file = Path(__file__).resolve()
     parent_dir = current_file.parent.parent
-    return Path(rf"{parent_dir}\system_prompts\secondary_sales_datasource_metadata.md").read_text(encoding="utf-8")   
+    return Path(rf"{parent_dir}\system_prompts\Meta_Data_v5.md").read_text(encoding="utf-8")   
+
+@lru_cache(maxsize=1)
+def get_agent_rules() -> str:
+    current_file = Path(__file__).resolve()
+    parent_dir = current_file.parent.parent
+    return Path(rf"{parent_dir}\system_prompts\agent_rules_v5.md").read_text(encoding="utf-8")   
 
 
 @lru_cache(maxsize=1)
@@ -225,24 +261,25 @@ def enhanced_prompt_handler(state: State):
 
 
 async def autonomous_executor(state: dict):
-    print(" i am in agent")
     langchain_tools = state.get("langchain_tools", [])
     tools_by_name = state.get("tools_by_name", {})
+
+    CODE_EXECUTION_TOOL = {"type": "code_execution_20250825", "name": "code_execution"}
+
     llm_with_tools = sonnet_llm.bind_tools(langchain_tools)
     datasource_uuid = "b6bbffe2-ebdb-4deb-808c-825fe0896e85"
 
     business_info = get_business_info()
     datasource_metadata = get_datasource_metadata()
+    agent_rules = get_agent_rules()
     string_search_instructions = get_string_search_instructions()
 
     today = datetime.now()
     latest_date = today - timedelta(days=1)
 
-    print("Today:", today.strftime("%Y-%m-%d"))
-    print("Target Date:", latest_date.strftime("%Y-%m-%d"))
-    latest_date_msg = f"The data is available upto n-1 day which is {latest_date}, use this as refrence when trying to apply any date filter"
+    latest_date_msg = f"The data is available upto n-1 day and today date is {today}, use this as refrence when trying to apply any date filter"
 
-    prompt = f"""{business_info}\n DataSource UUID: {datasource_uuid}\n Metadata of the datasource:\n{datasource_metadata}\n\n"""
+    prompt = f"""{agent_rules}\n\n{business_info}\n DataSource UUID: {datasource_uuid}\n Metadata of the datasource:\n{datasource_metadata}\n\n"""
     
     
     tool_execution_history = state.get("tool_execution_history", [])
@@ -250,16 +287,13 @@ async def autonomous_executor(state: dict):
 
     messages = [
         SystemMessage(content=[{"type": "text", "text": prompt, "cache_control": {"type": "ephemeral"}}]),
-        SystemMessage(content=[{"type": "text", "text": latest_date_msg}]),
     ]
     messages.append(HumanMessage(content=user_msg))
 
     history = copy.deepcopy(tool_execution_history)
     tool_call_log = copy.deepcopy(state.get("tool_call_log", []))
     validation_log = copy.deepcopy(state.get("validation_log", {}))
-    print("Tool History: ", history)
 
-    messages.extend(history)
 
 
     if history:
@@ -270,6 +304,9 @@ async def autonomous_executor(state: dict):
             ]
         elif isinstance(last.content, list) and last.content:
             last.content[-1]["cache_control"] = {"type": "ephemeral"}
+        
+    messages.extend(history)    
+    messages.append(HumanMessage(content=[{"type": "text", "text": latest_date_msg}]))
 
 
     while True:
@@ -291,6 +328,7 @@ async def autonomous_executor(state: dict):
         ai_message = llm_with_tools.invoke(messages)
 
         usage = ai_message.usage_metadata
+        print("Response from LLM: ", ai_message)
         print("============== AGENT NODE ================")
         print("input_tokens:", usage["input_tokens"])
         print("cache_read:", usage.get("input_token_details", {}).get("cache_read"))
@@ -302,7 +340,6 @@ async def autonomous_executor(state: dict):
         print(f"Agent sent {len(tool_calls)} tool_calls")
 
         for call in tool_calls:
-            print("inside loop")
             name = call.get("name")
             args = call.get("args", {})
             tool_started_at = _utc_now_iso()
@@ -321,7 +358,6 @@ async def autonomous_executor(state: dict):
             }
 
             try: 
-                print("trying")
                 tool = tools_by_name.get(name)
                 if tool is None:
                     msg = f"Tool '{name}' is not available (VDS tools only)."
@@ -332,10 +368,7 @@ async def autonomous_executor(state: dict):
                     continue
                     
 
-                print("gonna start tool execution now")
                 result = await tool.ainvoke(args)
-                print("DONE")
-                print(result)
                 tool_log_entry["status"] = "success"
                 tool_log_entry["result"] = _json_safe(result)
                 if name == 'query-datasource':
@@ -369,6 +402,9 @@ async def autonomous_executor(state: dict):
         tool_calls_summary = _tool_calls_summary(tool_call_log)
         validation_log["tool_calls"] = tool_call_log
         validation_log["tool_calls_summary"] = tool_calls_summary
+        
+        
+        normalized_output = _normalize_text_output(ai_message.content)
 
         return  {
         "tool_calls": tool_calls,
@@ -376,13 +412,12 @@ async def autonomous_executor(state: dict):
         "tool_call_log": tool_call_log,
         "tool_calls_summary": tool_calls_summary,
         "validation_log": validation_log,
-        "output": ai_message.content,
+        "output": normalized_output,
         "follow_up": False,
         "intent": 'None'
         }
         
 async def execute_tool(state: dict):
-    print("I am in executoer")
     return state
     tool_calls = state.get("tool_calls", [])
     if not tool_calls:
@@ -539,7 +574,6 @@ async def execute_tool(state: dict):
 
 
 def final_response_after_tool_call_node(state: State):
-    print("final_response_after_tool_call_node ")
     """
     Generate the final response to the user using:
     - enhanced_input

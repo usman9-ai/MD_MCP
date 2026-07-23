@@ -12,7 +12,8 @@ sonnet_llm = ChatAnthropic(
         max_tokens=config.MAX_TOKENS,
     )
 
-
+        # betas=["code-execution-2025-08-25"],
+        # reuse_last_container=True, 
 haiku_llm = ChatAnthropic(
             model=config.HAIKU_MODEL_NAME,
             api_key=config.API_KEY,
