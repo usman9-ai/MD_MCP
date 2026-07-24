@@ -32,6 +32,8 @@ def create_initial_state():
         "tool_call_log": [],
         "tool_calls_summary": "",
         "validation_log": {},
+        "shortlisted_datasources":[],
+        "agent_system_prompt": str,
         "final_response": "",
         "replanning_attempts": 0,
         "max_replanning_attempts": 3,

@@ -1,0 +1,506 @@
+{
+  "datasourceDescription": "",
+  "datasourceModel": {
+    "logicalTables": [
+      {
+        "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+        "caption": "GV_IMS_NEW_UNPVT"
+      }
+    ],
+    "logicalTableRelationships": []
+  },
+  "fieldGroups": [
+    {
+      "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+      "fields": [
+        {
+          "name": "Month Number",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Insert Date",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Corp Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Prod Mth",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Pack Cod",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Flg2 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Value",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Therapy Area (ATC1)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "CUF",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Prod Des",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Mtyp Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Corp Des",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Prodcmps",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Manu Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Chemical Subclass (ATC4)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Year",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "SUF",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Atc4 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Unit Value",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nmolelab",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Therapeutic Class (ATC2)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nmolecps",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Atc3 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nmoleprd",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Pack Lch",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Stgh Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Excl V06 V07",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Month Date",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Cmps Cod",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Atc2 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Npacklab",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Atc1 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "App1 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Eda1 Cod",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Mat4",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Mat5",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Mat1",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Mat2",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Mark Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Mat3",
+          "dataType": "REAL",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Prod Lch",
+          "dataType": "DATE",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "YEAR",
+          "dataCategory": "ORDINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Npackprd",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "App2 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Nprodlab",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Pack Res",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Pack Mth",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "App3 Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Edad Cod",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Composition (Molecule)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Prod Cod",
+          "dataType": "INTEGER",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "SUM",
+          "dataCategory": "QUANTITATIVE",
+          "role": "MEASURE"
+        },
+        {
+          "name": "Gene Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Pharmacological Class (ATC3)",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Pack Des",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        },
+        {
+          "name": "Smol Cod",
+          "dataType": "STRING",
+          "columnClass": "COLUMN",
+          "logicalTableId": "GV_IMS_NEW_UNPVT (MDHANAPROD.GV_IMS_NEW_UNPVT)_FB5023D4C646427EAA9D18F0E11CA866",
+          "defaultAggregation": "COUNT",
+          "dataCategory": "NOMINAL",
+          "role": "DIMENSION"
+        }
+      ]
+    }
+  ],
+  "parameters": []
+}

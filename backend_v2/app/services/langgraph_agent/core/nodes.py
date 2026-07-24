@@ -122,6 +122,15 @@ def get_string_search_instructions() -> str:
 
 
 
+@lru_cache(maxsize=1)
+def get_datasource_descriptions() -> str:
+    current_file = Path(__file__).resolve()
+    parent_dir = current_file.parent.parent
+    return Path(rf"{parent_dir}\system_prompts\DS Description\Datasource_Descriptions_v2.md").read_text(encoding="utf-8")  
+
+
+
+
 
 def _parse_router_output(raw_msg, user_msg: str) -> RouterOutput:
     if getattr(raw_msg, "tool_calls", None):
@@ -259,11 +268,53 @@ def enhanced_prompt_handler(state: State):
         validation_log["enhanced_prompt"] = reply
         return {"enhanced_input": reply, "validation_log": validation_log}
 
+def datasource_resolver(state: State):
+    question = state.get("enhanced_input", "")
+    datasource_descriptions = get_datasource_descriptions()
+    prompt = rf"""{datasource_descriptions}\n User Question: {question}"""
+
+    msg = sonnet_llm.invoke(prompt)
+    print("table resolver")
+    print(msg)
+    result = json.loads(msg.content)
+    print(result)
+
+    return{"shortlisted_datasources": result}
+
+
+def load_relevant_metadata(state: dict):
+    datasources = state.get("shortlisted_datasources", [])
+    print("FULL STATE KEYS:", list(state.keys()))
+    print("shortlisted_datasources RAW:", state.get("shortlisted_datasources", "<MISSING>"))
+    datasources = state.get("shortlisted_datasources", [])
+    print("Type of result: ", type(datasources))
+    prompt = ''
+    for ds in datasources:
+        if ds.get("datasource_name","") == 'Secondary Sales DS - BDC':
+            ds_info = rf"""Datasource name: {ds.get("datasource_name", "")} , datasourceLuid: '{ds.get("datasource_id","")}' """
+            prompt += ds_info
+            current_file = Path(__file__).resolve()
+            parent_dir = current_file.parent.parent            
+            prompt += Path(rf"{parent_dir}\system_prompts\KPIs_v5.md").read_text(encoding="utf-8")   
+            prompt += Path(rf"{parent_dir}\system_prompts\Meta_Data_v5.md").read_text(encoding="utf-8")   
+            prompt += Path(rf"{parent_dir}\system_prompts\agent_rules_v5.md").read_text(encoding="utf-8")  
+
+        elif ds.get("datasource_name","") == 'IMS New - DS - BDC - Pulse':
+            ds_info = rf"""Datasource name: {ds.get("datasource_name", "")} , datasourceLuid: '{ds.get("datasource_id","")}' """
+            prompt += ds_info
+            current_file = Path(__file__).resolve()
+            parent_dir = current_file.parent.parent    
+            prompt += Path(rf"{parent_dir}\system_prompts\IMS Metadata\IMS_Metadata_v2.md").read_text(encoding="utf-8")   
+            prompt += Path(rf"{parent_dir}\system_prompts\IMS Metadata\IMS_KPIs_v1.md").read_text(encoding="utf-8")   
+    
+    print("THE SYSTEM PROMPT: ", prompt)
+    return {"agent_system_prompt": prompt}
+
 
 async def autonomous_executor(state: dict):
     langchain_tools = state.get("langchain_tools", [])
     tools_by_name = state.get("tools_by_name", {})
-
+    agent_system_prompt = state.get("agent_system_prompt", "")
     CODE_EXECUTION_TOOL = {"type": "code_execution_20250825", "name": "code_execution"}
 
     llm_with_tools = sonnet_llm.bind_tools(langchain_tools)
@@ -277,7 +328,7 @@ async def autonomous_executor(state: dict):
     today = datetime.now()
     latest_date = today - timedelta(days=1)
 
-    latest_date_msg = f"The data is available upto n-1 day and today date is {today}, use this as refrence when trying to apply any date filter"
+    latest_date_msg = f"Today's date is {today}"
 
     prompt = f"""{agent_rules}\n\n{business_info}\n DataSource UUID: {datasource_uuid}\n Metadata of the datasource:\n{datasource_metadata}\n\n"""
     
@@ -286,7 +337,7 @@ async def autonomous_executor(state: dict):
     user_msg = state.get('enhanced_input', "") 
 
     messages = [
-        SystemMessage(content=[{"type": "text", "text": prompt, "cache_control": {"type": "ephemeral"}}]),
+        SystemMessage(content=[{"type": "text", "text": agent_system_prompt, "cache_control": {"type": "ephemeral"}}]),
     ]
     messages.append(HumanMessage(content=user_msg))
 
@@ -311,20 +362,7 @@ async def autonomous_executor(state: dict):
 
     while True:
         current_tool_calls = []
-        # for i, m in enumerate(messages):
-        #     print("=" * 40)
-        #     print(i, type(m))
 
-        #     if isinstance(m, AIMessage):
-        #         print("tool_calls:", m.tool_calls)
-        #         print("content:", m.content)
-
-        #     elif isinstance(m, ToolMessage):
-        #         print("tool_call_id:", m.tool_call_id)
-        #         print("content:", m.content)
-
-        #     else:
-        #         print(m.content)
         ai_message = llm_with_tools.invoke(messages)
 
         usage = ai_message.usage_metadata
@@ -414,163 +452,11 @@ async def autonomous_executor(state: dict):
         "validation_log": validation_log,
         "output": normalized_output,
         "follow_up": False,
-        "intent": 'None'
         }
+    
+def execute_tool(state: dict):
+    return
         
-async def execute_tool(state: dict):
-    return state
-    tool_calls = state.get("tool_calls", [])
-    if not tool_calls:
-        return {
-            "tool_execution_history": [
-                ToolMessage(content="No tool calls detected in response JSON.")
-            ]
-        }
-
-    tool_call = tool_calls[0]
-    tool_name = tool_call.get("name")
-    tool_args = tool_call.get("args", {})
-    tool_call_id = tool_call.get("id", str(uuid.uuid4()))
-
-    # 🔒 ALWAYS COPY STATE STRUCTURES (IMMUTABLE PATTERN)
-    current_tool_calls = copy.deepcopy(state.get("current_tool_calls", {}))
-    most_recent_tool_calls = copy.deepcopy(state.get("most_recent_tool_calls", {}))
-
-    # ==========================================================
-    # 1️⃣ Prevent infinite loop (same tool + same args in current tick)
-    # ==========================================================
-    if tool_name in current_tool_calls:
-        previous_args = current_tool_calls[tool_name].get("arguments", {})
-
-        if previous_args == tool_args:
-            previous_status = current_tool_calls[tool_name].get("status", "unknown")
-            previous_response = current_tool_calls[tool_name].get("response")
-
-            error_msg = (
-                f"Identical tool call detected for '{tool_name}'.\n"
-                f"Previous status: {previous_status}\n"
-                f"Previous response: {previous_response}\n"
-                "Adjust plan to avoid infinite loop."
-            )
-            tool_msg = ToolMessage(
-                content=error_msg,
-                tool_name=tool_name,
-                tool_call_id=tool_call_id,
-            )
-
-            return {
-                "tool_execution_history": [tool_msg]
-            }
-
-    # ==========================================================
-    # 2️⃣ Use cached result if already completed previously
-    # ==========================================================
-    if tool_name in most_recent_tool_calls:
-        previous_args = most_recent_tool_calls[tool_name].get("arguments", {})
-        previous_status = most_recent_tool_calls[tool_name].get("status", "")
-
-        if previous_args == tool_args and previous_status == "completed":
-            response = most_recent_tool_calls[tool_name]["response"]
-
-            tool_msg = ToolMessage(content=response,
-            tool_name=tool_name,
-            tool_call_id=tool_call_id)
-
-
-            # Reset prompts counter safely
-            most_recent_tool_calls[tool_name]["prompts_after_last_call"] = 0
-
-            return {
-                "most_recent_tool_calls": most_recent_tool_calls,
-                "tool_execution_history": [tool_msg]
-            }
-
-    # ==========================================================
-    # 3️⃣ Execute Tool
-    # ==========================================================
-    try:
-        
-        if not ai.tool_calls:
-            # No more tool calls -> model's final natural-language answer.
-            if ai.content:
-                print("\nAnswer:", ai.content.strip() if isinstance(ai.content, str) else ai.content)
-            return
-
-        for call in ai.tool_calls:
-            name = call["name"]
-            args = call["args"]
-
-            # ---- Response 1: the VizQL query that is being executed ----
-            if name == 'query-datasource':
-                # print("\n=== VizQL Query Executed ===")
-                # print(extract_vizql_query(args))
-                pass
-
-            tool = tools_by_name.get(name)
-            if tool is None:
-                msg = f"Tool '{name}' is not available (VDS tools only)."
-                # print("\n=== Error ===\n" + msg)
-                messages.append(ToolMessage(content=msg, tool_call_id=call["id"], status="error"))
-                continue
-
-            # ---- Response 2: output on success, brief error on failure ----
-            try:
-                result = await tool.ainvoke(args)
-                if name == 'query-datasource':
-                    # print("\n=== Output ===")
-                    # print(summarize_result(result))
-                    pass
-                messages.append(ToolMessage(content=str(result), tool_call_id=call["id"]))
-            except Exception as exc:  # VDS/MCP raised -> brief it and feed back
-                    # print("\n=== Error ===")
-                    # print(short)
-                    pass
-
-
-
-        async with Client("http://localhost:3927/tableau-mcp") as client:
-            tool_result = await client.call_tool(tool_name, tool_args)
-
-        tool_msg = ToolMessage(
-            content=f"Result from tool {tool_name}: {tool_result}",
-            tool_name=tool_name,
-            tool_call_id=tool_call_id,
-        )
-
-
-        # Update tracking dictionaries safely
-        current_tool_calls[tool_name] = {
-            "arguments": tool_args,
-            "response": tool_msg,
-            "status": "completed"
-        }
-
-
-        return {
-            "current_tool_calls": current_tool_calls,
-            "tool_execution_history": [tool_msg],
-        }
-
-    # ==========================================================
-    # 4️⃣ Handle Tool Error
-    # ==========================================================
-    except Exception as e:
-
-        error_msg = f"Error executing tool '{tool_name}': {str(e)}"
-
-        tool_msg = ToolMessage(
-            content=error_msg,
-            tool_name=tool_name,
-            tool_call_id=tool_call_id,
-        )
-
-
-        return {
-            "current_tool_calls": current_tool_calls,
-            "most_recent_tool_calls": most_recent_tool_calls,
-            "tool_execution_history": [tool_msg],
-            "datasource_metadata": {}
-        }
 
 
 def final_response_after_tool_call_node(state: State):

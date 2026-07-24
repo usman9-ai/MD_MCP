@@ -14,6 +14,8 @@ def build_graph(return_builder=False):
     builder.add_node("other_domain_message_handler", other_domain_message_handler)
     builder.add_node("greeting_handler", greeting_handler)
     builder.add_node("enhanced_prompt_handler", enhanced_prompt_handler)
+    builder.add_node("datasource_resolver", datasource_resolver)
+    builder.add_node("load_relevant_metadata", load_relevant_metadata)
     builder.add_node("agent", autonomous_executor)
     builder.add_node("tool_calls", execute_tool, async_node=True)
     builder.add_node("final_response_after_tool_call_node", final_response_after_tool_call_node)
@@ -44,7 +46,11 @@ def build_graph(return_builder=False):
         }
     )
 
-    builder.add_edge("enhanced_prompt_handler","agent")
+    builder.add_edge("enhanced_prompt_handler","datasource_resolver")
+    builder.add_edge("datasource_resolver","load_relevant_metadata")
+    builder.add_edge("load_relevant_metadata","agent")
+
+
 
     def check_tool_calls(state: State):
         if state.get("tool_calls") != []:
