@@ -4,11 +4,11 @@ import { MartinDowLogo } from "@/components/ui/MartinDowLogo";
 
 const SUGGESTIONS = [
   { icon: TrendingUp, label: "Executive Summary", prompt: "Provide me the overall business summary for Neuro care BU, provide me 10 key insights, major oppotunities and concerns." },
-  { icon: BarChart2,  label: "Sales Achievement",      prompt: "Tell me about the YTD target achievement of Neuro care BU, key drivers and Contribution analysis." },
   { icon: Package,    label: "100% Target Achievement Plan",        prompt: "Based on the current YTD target achievement of Neuro care BU, what is the plan to achieve 100% target completion for the year 2026?" },
-  { icon: Search,     label: "Impact of Discounts and Bonuses",   prompt: "What is the impact of discounts and bonuses on the sale value for the Neuro care BU?" },
+  { icon: Search,     label: "Competitor Analysis",   prompt: "Compare Martin Dow Group with Getz Pharma based on Molecular Performance" },
+  { icon: BarChart2,  label: "Sales Achievement",      prompt: "Tell me about the YTD target achievement of Neuro care BU, key drivers and Contribution analysis." },
   { icon: Package,    label: "Price Increase Impact",        prompt: "What is the impact of price increase on YTD sales value and sale units of Neuro care BU, compared to last year same period?" },
-  { icon: TrendingUp,    label: "Sales Analysis",        prompt: "Provide monthly sale value and sale units for Neuro care BU, for the current year." },
+  { icon: TrendingUp, label: "Molecule Level Comparison",        prompt: "Provide me a list of all the products from CEFTRIAXONE molecule with their current MAT Value " },
 ];
 
 
