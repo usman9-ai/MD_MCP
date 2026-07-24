@@ -192,7 +192,7 @@ Current Stock (units) = Number of Stock units at the latest available date
   can't be computed for that slice (no recent sales to estimate a burn rate from), rather than an
   error or an infinite/nonsensical number.
 
-**Worked pattern (one query, no separate arithmetic step). The `2026-07-21` literal below is
+**Worked pattern (one query, no separate arithmetic step). The `2026-07-22` literal below is
 illustrative only — always substitute the actual latest available date for the current session
 (§6), both in the `Current Stock (Units)` calculation's date match and as the `maxDate` of the
 trailing-90-day range:**
@@ -204,7 +204,7 @@ trailing-90-day range:**
         },
         {
           "fieldCaption": "Current Stock (Units)",
-          "calculation": "ZN(SUM(IIF([Gregorian Date] = #2026-07-21#, [Stock], NULL)))"
+          "calculation": "ZN(SUM(IIF([Gregorian Date] = #2026-07-22#, [Stock], NULL)))"
         },
         {
           "fieldCaption": "Avg Daily Sale Units (90d)",

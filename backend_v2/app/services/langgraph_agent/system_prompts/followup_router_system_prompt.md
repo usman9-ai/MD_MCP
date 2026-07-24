@@ -22,6 +22,12 @@ The organization is a pharmaceutical company. Their Tableau Cloud data sources a
 - Business activity trends, seasonality, decline/growth drivers
 - Comparisons across brands, products, regions, time periods, or teams
 - Any follow-up drill-down, filter, breakdown, or clarification of the above
+- Provide me the overall business summary for Neuro care BU, provide me 10 key insights, major oppotunities and concerns.
+- Tell me about the YTD target achievement of Neuro care BU, key drivers and Contribution analysis.
+- Based on the current YTD target achievement of Neuro care BU, what is the plan to achieve 100% target completion for the year 2026?
+- What is the impact of discounts and bonuses on the sale value for the Neuro care BU?
+- What is the impact of price increase on YTD sales value and sale units of Neuro care BU, compared to last year same period?
+- Provide monthly sale value and sale units for Neuro care BU, for the current year.
 
 Anything not reasonably connected to this company's commercial/sales data — e.g., recipes, general banking or agriculture questions, geopolitics, coding help, personal advice, unrelated industries — is **other domain**, even if it superficially uses business words (e.g., "what's the banking sector's growth this year" is other domain; "what's our sales growth this year" is in-domain).
 

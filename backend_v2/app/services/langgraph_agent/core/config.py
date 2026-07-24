@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(r"C:\Tableau Chatbot\APP\MD_MCP\backend_v2\app\services\langgraph_agent\core\.env")
 
 # --- Anthropic / model ---------------------------------------------------
 API_KEY = os.getenv("claude_api_key")

@@ -3,12 +3,12 @@ import { BarChart2, TrendingUp, Search, Package } from "lucide-react";
 import { MartinDowLogo } from "@/components/ui/MartinDowLogo";
 
 const SUGGESTIONS = [
-  { icon: TrendingUp, label: "Executive Summary", prompt: "Provide me the overall business summary, provide me 10 key insights, major oppotunities and concerns." },
-  { icon: BarChart2,  label: "Sales Performance",      prompt: "Tell me about the YTD target achievement, key drivers and Contribution analysis." },
-  { icon: Package,    label: "100% Target Achievement Plan",        prompt: "Based on the current YTD target achievement, what is the plan to achieve 100% target completion for the year 2026?" },
-  { icon: Search,     label: "Impact of Discounts and Bonuses",   prompt: "What is the impact of discounts and bonuses on the sale value?" },
-  { icon: Package,    label: "Price Increase Impact",        prompt: "What is the impact of price increases on YTD sales value and sale units, compared to last year same period?" },
-  { icon: TrendingUp,    label: "Company Wise Sales Analysis",        prompt: "Provide a company-wise monthly sale value and sale units for the current year." },
+  { icon: TrendingUp, label: "Executive Summary", prompt: "Provide me the overall business summary for Neuro care BU, provide me 10 key insights, major oppotunities and concerns." },
+  { icon: BarChart2,  label: "Sales Achievement",      prompt: "Tell me about the YTD target achievement of Neuro care BU, key drivers and Contribution analysis." },
+  { icon: Package,    label: "100% Target Achievement Plan",        prompt: "Based on the current YTD target achievement of Neuro care BU, what is the plan to achieve 100% target completion for the year 2026?" },
+  { icon: Search,     label: "Impact of Discounts and Bonuses",   prompt: "What is the impact of discounts and bonuses on the sale value for the Neuro care BU?" },
+  { icon: Package,    label: "Price Increase Impact",        prompt: "What is the impact of price increase on YTD sales value and sale units of Neuro care BU, compared to last year same period?" },
+  { icon: TrendingUp,    label: "Sales Analysis",        prompt: "Provide monthly sale value and sale units for Neuro care BU, for the current year." },
 ];
 
 

@@ -334,7 +334,7 @@ and hard to notice.
     },
     {
       "fieldCaption": "CY Sales (YTD Jan-Jul 21, 2026)",
-      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-21#, [Sale Value], NULL))"
+      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-22#, [Sale Value], NULL))"
     },
     {
       "fieldCaption": "LY Sales (YTD Jan-Jul 21, 2025)",
@@ -342,11 +342,11 @@ and hard to notice.
     },
     {
       "fieldCaption": "GOLY (PKR)",
-      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-21#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))"
+      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-22#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))"
     },
     {
       "fieldCaption": "GOLY %",
-      "calculation": "(SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-21#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))) / SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL)) * 100",
+      "calculation": "(SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-22#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))) / SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL)) * 100",
       "sortDirection":"DESC",
       "sortPriority":1,
       "maxDecimalPlaces": 2
@@ -369,7 +369,7 @@ and hard to notice.
       "filterType": "QUANTITATIVE_DATE",
       "quantitativeFilterType": "RANGE",
       "minDate": "2025-01-01",
-      "maxDate": "2026-07-21"
+      "maxDate": "2026-07-22"
     }
   ]
 }
@@ -382,7 +382,7 @@ and hard to notice.
 
     {
       "fieldCaption": "CY Sales (YTD Jan-Jul 21, 2026)",
-      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-21#, [Sale Value], NULL))"
+      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-22#, [Sale Value], NULL))"
     },
     {
       "fieldCaption": "LY Sales (YTD Jan-Jul 21, 2025)",
@@ -390,11 +390,11 @@ and hard to notice.
     },
     {
       "fieldCaption": "GOLY (PKR)",
-      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-21#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))"
+      "calculation": "SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-22#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))"
     },
     {
       "fieldCaption": "GOLY %",
-      "calculation": "(SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-21#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))) / SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL)) * 100",
+      "calculation": "(SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2026-01-01# AND [Gregorian Date] <= #2026-07-22#, [Sale Value], NULL)) - SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL))) / SUM(IIF(ISNULL([Flag]) AND [Gregorian Date] >= #2025-01-01# AND [Gregorian Date] <= #2025-07-21#, [Sale Value], NULL)) * 100",
       "sortDirection":"DESC",
       "sortPriority":1,
       "maxDecimalPlaces": 2
@@ -417,7 +417,7 @@ and hard to notice.
       "filterType": "QUANTITATIVE_DATE",
       "quantitativeFilterType": "RANGE",
       "minDate": "2025-01-01",
-      "maxDate": "2026-07-21"
+      "maxDate": "2026-07-22"
     }
   ]
 }
